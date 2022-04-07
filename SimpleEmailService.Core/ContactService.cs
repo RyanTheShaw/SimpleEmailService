@@ -31,6 +31,11 @@ namespace SimpleEmailService.Core
             return result;
         }
 
+        /// <summary>
+        /// Attempts to store the provided <see cref="Contact"/> in the <see cref="EmailDbContext"/>
+        /// </summary>
+        /// <param name="contact"><see cref="Contact"/> to be created.</param>
+        /// <returns>True if successful, false if failure.</returns>
         public async Task<bool> CreateContact(Contact contact)
         {
             // Todo, add validation...
@@ -39,28 +44,66 @@ namespace SimpleEmailService.Core
 
             await _dbContext.Contacts.AddAsync(contact);
 
-            await _dbContext.SaveChangesAsync();
-
-            return true;
+            return await SaveChangesWithExceptionHandling();
         }
 
-        public async Task UpdateContact(Contact contact)
+        /// <summary>
+        /// Attempts to update the provided <see cref="Contact"/> by Id in the <see cref="EmailDbContext"/>
+        /// </summary>
+        /// <param name="contact"><see cref="Contact"/> to be updated.</param>
+        /// <returns>True if successful, false if failure.</returns>
+        public async Task<bool> UpdateContact(Contact contact)
         {
             var dbContact = await _dbContext.Contacts.Include(c => c.Emails).FirstOrDefaultAsync(c => c.Id == contact.Id);
             if(dbContact == null || !await IsContactValid(contact))
-                return;
+                return false;
 
-            //TODO: If there is an expectation for these shapes changing over time, maybe use memberwise clone / reflection?
             dbContact.Name = contact.Name;
             dbContact.BirthDate = contact.BirthDate;
             dbContact.Emails = contact.Emails;
 
-            await _dbContext.SaveChangesAsync();
+            return await SaveChangesWithExceptionHandling();
         }
+
+        /// <summary>
+        /// Attempts to delete the provided <see cref="Contact"/> by Id in the <see cref="EmailDbContext"/>
+        /// </summary>
+        /// <param name="contact"><see cref="Contact"/> to be deleted.</param>
+        /// <returns>True if successful, false if failure.</returns>
+        public async Task<bool> DeleteContact(long id)
+        {
+            var dbContact = await _dbContext.Contacts.Include(c => c.Emails).FirstOrDefaultAsync(c => c.Id == id);
+            if (dbContact == null)
+                return false;
+
+            _dbContext.Contacts.Remove(dbContact);
+
+            return await SaveChangesWithExceptionHandling();
+        }
+
+        #region Private helper methods
 
         private async Task<bool> IsContactValid(Contact contact)
         {
-            return contact.Emails.Where(e => e.IsPrimary).Count() == 1;
+            return contact.Emails == null || 
+                !contact.Emails.Any() || 
+                contact.Emails.Where(e => e.IsPrimary).Count() == 1;
         }
+        
+        private async Task<bool> SaveChangesWithExceptionHandling()
+        {
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex) when (ex is DbUpdateException || ex is DbUpdateConcurrencyException || ex is OperationCanceledException)
+            {
+                // Ideally add some logging here, but returning failure is good enough for now.
+                return false;
+            }
+        }
+
+        #endregion
     }
 }

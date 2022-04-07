@@ -29,9 +29,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
 
-    //var context = app.Services.GetRequiredService<EmailDbContext>();
-    //await app.Services.GetRequiredService<NonProdDataSeeder>().Seed(context);
+if(bool.Parse(app.Configuration.GetSection("SeedDataOnStartup").Value))
+{
+    var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<EmailDbContext>();
+    await NonProdDataSeeder.Seed(context);
 }
 
 app.UseHttpsRedirection();

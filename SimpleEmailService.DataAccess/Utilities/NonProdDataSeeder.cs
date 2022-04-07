@@ -57,10 +57,6 @@ namespace SimpleEmailService.DataAccess.Utilities
                     }
                 };
 
-            await context.Emails.AddRangeAsync(RyansEmails);
-
-            await context.Emails.AddRangeAsync(JoesEmails);
-
             await context.Contacts.AddAsync(new Contact()
             {
                 Id = 1,
