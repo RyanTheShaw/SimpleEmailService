@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleEmailService.DataAccess\SimpleEmailService.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>
