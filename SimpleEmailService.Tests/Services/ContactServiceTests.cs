@@ -1,14 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Moq;
-using Moq.EntityFrameworkCore;
-using SimpleEmailService.Core;
 using SimpleEmailService.Core.Models;
+using SimpleEmailService.Core.Services;
 using SimpleEmailService.DataAccess.DbContexts;
 using SimpleEmailService.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

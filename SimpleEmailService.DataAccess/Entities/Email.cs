@@ -14,12 +14,5 @@ namespace SimpleEmailService.DataAccess.Entities
         public bool IsPrimary { get; set; }
 
         public string Address { get; set; } = default!;
-
-        #region Navigation Properties
-
-        //[JsonIgnore]
-        //public virtual Contact Contact { get; set; }
-
-        #endregion
     }
 }

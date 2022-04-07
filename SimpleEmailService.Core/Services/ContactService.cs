@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleEmailService.DataAccess.DbContexts;
 using SimpleEmailService.DataAccess.Entities;
-using SimpleEmailService.DataAccess.Utilities;
 
-namespace SimpleEmailService.Core
+namespace SimpleEmailService.Core.Services
 {
     public class ContactService
     {
@@ -67,6 +66,7 @@ namespace SimpleEmailService.Core
             if(dbContact == null || !await IsContactValid(contact))
                 return false;
 
+            // Updates made property by property to keep change tracking.
             dbContact.Name = contact.Name;
             dbContact.BirthDate = contact.BirthDate;
             dbContact.Emails = contact.Emails;

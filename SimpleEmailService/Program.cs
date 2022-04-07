@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SimpleEmailService.Core;
+using SimpleEmailService.Core.Services;
 using SimpleEmailService.DataAccess.DbContexts;
 using SimpleEmailService.DataAccess.Utilities;
 
@@ -20,7 +20,6 @@ builder.Services.AddSwaggerGen(c => c.UseDateOnlyTimeOnlyStringConverters());
 builder.Services.AddDbContext<EmailDbContext>(options => options.UseInMemoryDatabase("EmailDb"));
 
 builder.Services.AddScoped<ContactService>();
-builder.Services.AddScoped<EmailService>();
 
 var app = builder.Build();
 

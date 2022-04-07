@@ -13,12 +13,12 @@ namespace SimpleEmailService.Core.Models
         public string NamePartial { get; set; }
 
         /// <summary>
-        /// The earliest birthdate for a contact meant to be retrieved.
+        /// The earliest birthdate for a contact meant to be retrieved (comparison inclusive).
         /// </summary>
         public DateOnly? EarliestBirthDate { get; set; }
 
         /// <summary>
-        /// The latest birthdate for a contact meant to be retrieved.
+        /// The latest birthdate for a contact meant to be retrieved (comparison inclusive).
         /// </summary>
         public DateOnly? LatestBirthDate { get; set; }
 

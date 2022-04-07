@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SimpleEmailService.Core;
 using SimpleEmailService.Core.Models;
+using SimpleEmailService.Core.Services;
 using SimpleEmailService.DataAccess.Entities;
-using System.Net;
 
 namespace SimpleEmailService.Controllers
 {
@@ -53,6 +52,19 @@ namespace SimpleEmailService.Controllers
             else
             {
                 return BadRequest("Failed to update contact.");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Contact?>> Delete(long id)
+        {
+            if (await _contactService.DeleteContact(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Failed to delete contact.");
             }
         }
     }
