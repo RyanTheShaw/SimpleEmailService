@@ -14,6 +14,11 @@ namespace SimpleEmailService.Core
             _dbContext = context;
         }
 
+        /// <summary>
+        /// Retrieves a single <see cref="Contact"/> by it's <paramref name="id"/>, or null if no match is found.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A <see cref="Contact?"/> matching the supplied id</returns>
         public async Task<Contact?> GetContact(long id)
         {
             var result = await _dbContext.Contacts.Include(c => c.Emails).FirstOrDefaultAsync(c => c.Id == id);
@@ -21,6 +26,11 @@ namespace SimpleEmailService.Core
             return result;
         }
 
+        /// <summary>
+        /// Returns a list of contacts contained in the <see cref="EmailDbContext"/>, optionally filtered by the supplied <paramref name="filter"/>.
+        /// </summary>
+        /// <param name="filter">Collection of values meant to filter the list of <see cref="Contact"/>s</param>
+        /// <returns><see cref="Task{IEnumerable{Contact}}"/></returns>
         public async Task<IEnumerable<Contact>> GetContacts(Func<Contact, bool> filter = null)
         {
             if (filter == null)
@@ -38,7 +48,6 @@ namespace SimpleEmailService.Core
         /// <returns>True if successful, false if failure.</returns>
         public async Task<bool> CreateContact(Contact contact)
         {
-            // Todo, add validation...
             if (!await IsContactValid(contact))
                 return false;
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SimpleEmailService.Core;
+using SimpleEmailService.Core.Models;
 using SimpleEmailService.DataAccess.Entities;
 using System.Net;
 
@@ -22,41 +23,37 @@ namespace SimpleEmailService.Controllers
             return await _contactService.GetContacts();
         }
 
-        //[HttpGet("{contactId}")]
-        //public IEnumerable<Email> Get(int contactId)
-        //{
-        //    Func<Contact, bool> filter = e => e?.Contact.Id == contactId;
-
-        //    return _contactService.GetContact(filter);
-        //}
+        [Route("Search")]
+        [HttpPost]
+        public async Task<IEnumerable<Contact>> Search(ContactSearchValues contactSearchValues)
+        {
+            return await _contactService.GetContacts(contactSearchValues.GenerateContactFilter());
+        }
 
         [HttpPost]
-        public async Task<HttpStatusCode> Post(Contact contact)
+        public async Task<ActionResult<Contact?>> Post(Contact contact)
         {
             if(await _contactService.CreateContact(contact))
             {
-                return HttpStatusCode.Created;
+                return Ok(contact);
             }
             else
             {
-                return HttpStatusCode.BadRequest;
+                return BadRequest("Failed to create contact.");
             }
         }
 
         [HttpPut]
-        public async Task<Contact> Put(Contact contact)
+        public async Task<ActionResult<Contact?>> Put(Contact contact)
         {
-            await _contactService.UpdateContact(contact);
-
-            return await _contactService.GetContact(contact.Id);
+            if(await _contactService.UpdateContact(contact))
+            {
+                return Ok(await _contactService.GetContact(contact.Id));
+            }
+            else
+            {
+                return BadRequest("Failed to update contact.");
+            }
         }
-
-        //[HttpPatch]
-        //public async Task<HttpStatusCode> Patch(Contact contact)
-        //{
-        //    await _contactService.UpdateContact(contact);
-
-        //    return HttpStatusCode.Created;
-        //}
     }
 }

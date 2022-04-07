@@ -68,7 +68,7 @@ namespace SimpleEmailService.DataAccess.Utilities
             await context.Contacts.AddAsync(new Contact()
             {
                 Id = 2,
-                Name = "Joe Schmo",
+                Name = "Joe Shmoe",
                 BirthDate = new DateOnly(1984, 4, 14),
                 Emails = JoesEmails
             });
