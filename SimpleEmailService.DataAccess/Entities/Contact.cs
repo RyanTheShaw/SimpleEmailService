@@ -42,6 +42,11 @@
 				   Emails.SequenceEqual(other.Emails);
 		}
 
+		public override string ToString()
+        {
+			return $"Id: {Id}, Name: {Name}, BirthDate: {BirthDate}, Email Count: {Emails.Count()}";
+        }
+
 		#endregion
 	}
 }
