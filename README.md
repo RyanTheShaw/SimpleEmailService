@@ -22,7 +22,7 @@ The core breakdown of functionality comes in 3 layers allowing for proper separa
 
 Comprehensive unit testing can be found in the `SimpleEmailService.Tests` project. These tests are carried against the `SimpleEmailService.Core` service layer. 
 
-> Note: The unit tests were built utilizing the the ef InMemory database implementation, which some would argue makes them more of an integration test. I briefly explored using Moq to truely abstract away the functionality of our DbContext, but I figured this was fine for now.
+> Note: The unit tests were built utilizing the the ef in-memory database implementation, which some would argue makes them more of an integration test. I briefly explored using Moq to truly abstract away the functionality of our DbContext, but I figured this was fine for now.
 
 
 ## Local testing
