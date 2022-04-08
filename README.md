@@ -6,7 +6,7 @@ The core breakdown of functionality comes in 3 layers allowing for proper separa
 
 ## Assumptions made during development
 
-- The requirements doc mentioned exposing CRUD operations against these shapes, but it didn't specifically request a dedicated controller for just the Email records. As the email records are able to be adjusted by the parent, I decided to simply implement the `ContactController`.
+- The requirements doc mentioned exposing CRUD operations against these shapes, but it didn't specifically request a dedicated controller for just the Email records. As the email records are able to be adjusted through the parent `Contact` shape, I decided to simply implement only the `ContactController`.
 
 - Birth date range for searching didn't mention inclusive / exclusive, so I made the decision to make it inclusive.
 
@@ -77,3 +77,11 @@ Below are some values that are easy to copy and paste into swagger
   ]
 }
 ```
+
+#### Contact/Search Post endpoint - search by name
+```
+{
+  "namePartial": "ryan"
+}
+```
+
